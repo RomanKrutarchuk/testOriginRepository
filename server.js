@@ -12,7 +12,6 @@ webSocketServer.on("connection", (wsClient) => {
   clients[id] = wsClient;
   console.log(chalk.bgGreen(`New client ${id}`));
   
-
   wsClient.on("close", () => {
     delete clients[id];
     console.log(chalk.bgRed(`Client is closed ${id}`));
@@ -23,7 +22,7 @@ webSocketServer.on("connection", (wsClient) => {
     const {clientName, clientMessage} = JSON.parse(JSONmessage)
     messages.push({clientName, clientMessage})
   for(const id in clients){
-    clients[id].send(JSON.stringify([{clientName, clientMessage}]))
+    clients[id].send(JSON.stringify({clientName, clientMessage}))
   }
   })
 });
