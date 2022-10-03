@@ -1,36 +1,32 @@
 import ws from "ws";
 const { Server } = ws;
 import { v4 as uuid } from "uuid";
-import chalk from 'chalk'
+import chalk from "chalk";
 
-const clients ={};
-const messages = [];
+const clients = {};
+// const messages = [];
 
 const webSocketServer = new Server({ port: 8081 });
-webSocketServer.on("connection", (wsClient) => {
+webSocketServer.on("connection", (Client) => {
   const id = uuid();
-  clients[id] = wsClient;
+  clients[id] = Client;
+  clients[id].send(JSON.stringify({ type: "client", thisClient: id }));
   console.log(chalk.bgGreen(`New client ${id}`));
-  
-  wsClient.on("close", () => {
+
+  Client.on("close", () => {
     delete clients[id];
     console.log(chalk.bgRed(`Client is closed ${id}`));
-    
   });
-  wsClient.on('message',(JSONmessage)=>{
-    console.log('clientMessage',JSONmessage);
-    const {clientName, clientMessage} = JSON.parse(JSONmessage)
-    messages.push({clientName, clientMessage})
-  for(const id in clients){
-    clients[id].send(JSON.stringify({clientName, clientMessage}))
-  }
-  })
+
+  Client.on("message", (JSONmessage) => {
+    console.log("from client", JSONmessage);
+    const { clientName, clientMessage, clientId } = JSON.parse(JSONmessage);
+
+    for (const id in clients) {
+      clients[id].send(
+        JSON.stringify({ type: "message", clientName, clientMessage, clientId })
+      );
+    }
+  });
 });
 
-
-
-
-
-function log() {
-  console.log("clients :", clients);
-}
