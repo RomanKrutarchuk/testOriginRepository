@@ -1,24 +1,28 @@
 <template>
-  <div class="main">
-    <div v-if="reg === false">
-      <input v-model="value" type="text" />
-      <button @click="registration">register</button>
-    </div>
-    <div v-if="reg === true" id="form">
-      <h3>{{ user.name }}</h3>
-      <input v-model="message" type="text" name="message" id="message" />
-      <button @click="send()">submit</button>
-      <button @click="log()">log</button>
-      <div v-for="(message, i) in temp" :key="i">
-        <div v-if="message.type === 'message'">
-          <p v-if="message.clientId === user.id" class="bg">
-            {{ `${message.clientName}: ${message.clientMessage}` }}
-          </p>
-          <p v-else class="bg2">{{ `${message.clientName}: ${message.clientMessage}` }}</p>
+  
+    <div class="main">
+      <div v-if="reg === false" class="registration">
+        <input v-model="value" type="text" />
+        <button @click="registration">register</button>
+      </div>
+      <div v-if="reg === true" id="form">
+        <h3>{{ user.name }}</h3>
+        <input v-model="message" type="text" name="message" id="message" />
+        <button @click="send()">submit</button>
+        <button @click="log()">log</button>
+        <div v-for="(message, i) in temp" :key="i">
+          <div v-if="message.type === 'message'">
+            <p v-if="message.clientId === user.id" class="bg">
+              {{ `${message.clientName}: ${message.clientMessage}` }}
+            </p>
+            <p v-else class="bg2">
+              {{ `${message.clientName}: ${message.clientMessage}` }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+ 
 </template>
 
 <script>
@@ -64,7 +68,7 @@ export default {
   },
   created() {
     console.log("Starting connection to WebSocket Server");
-    this.connection = new WebSocket("ws://127.0.0.1:8081");
+    this.connection = new WebSocket("ws://25.65.57.75:5000");
     this.connection.onopen = function (event) {
       console.log("Successfully connected to websocket server...");
     };
@@ -81,7 +85,41 @@ export default {
 };
 </script> 
 <style>
-
+*{
+  box-sizing: border-box;
+}
+html {
+  width: 100%;
+  height: 100%;
+}
+#app {
+  flex: 1;
+}
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.main {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(204, 227, 227);
+  display: flex;
+  align-items: center;
+}
+.registration{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 300px;
+  background-color: beige;
+  
+}
 .bg {
   background-color: rgba(72, 255, 0, 0.471);
 }

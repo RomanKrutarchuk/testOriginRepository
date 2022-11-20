@@ -6,7 +6,7 @@ import chalk from "chalk";
 const clients = {};
 // const messages = [];
 
-const webSocketServer = new Server({ port: 8081 });
+const webSocketServer = new Server({ port: 5000 });
 webSocketServer.on("connection", (Client) => {
   const id = uuid();
   clients[id] = Client;
@@ -29,4 +29,3 @@ webSocketServer.on("connection", (Client) => {
     }
   });
 });
-
