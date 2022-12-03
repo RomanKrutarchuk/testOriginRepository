@@ -1,24 +1,21 @@
+
 <template>
   <div>
-    <h3>home</h3>
-    <button @click="view = true">button</button>
-    <div v-if="view === true">
-      <component :is="LayotComponent"></component>
-    </div>
+    <h3 :style="{ backgroundColor: colors.blue }" @click="log()">home</h3>
   </div>
 </template>
-
 <script>
+import colors from "@/components/library/colors";
 export default {
-  components: {},
-  data() {
-    return {
-      view: false,
-      LayotComponent: null,
-    };
+  computed: {
+    colors() {
+      return colors;
+    },
   },
-  mounted() {
-    this.LayotComponent = () => import("@/components/components/Layout");
+  methods: {
+    log() {
+      console.log("colors", this.colors);
+    },
   },
 };
 </script>
