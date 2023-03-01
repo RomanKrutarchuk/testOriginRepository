@@ -1,5 +1,4 @@
 <template>
-  
     <div class="main">
       <div v-if="reg === false" class="registration">
         <input v-model="value" type="text" />
